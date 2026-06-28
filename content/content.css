@@ -1,0 +1,424 @@
+/* Aletheia content surface styles — local-only UI affordances */
+
+.aletheia-hidden {
+  display: none !important;
+}
+
+.aletheia-collapsed {
+  max-height: 3.25rem;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+  background: color-mix(in srgb, Canvas 96%, CanvasText 4%);
+}
+
+.aletheia-collapsed > :not(.aletheia-expand-btn) {
+  visibility: hidden !important;
+}
+
+.aletheia-collapsed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, Canvas 55%, transparent) 70%,
+    Canvas 100%
+  );
+}
+
+.aletheia-expand-btn {
+  all: initial;
+  font: 600 12px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  margin: 0 0 0.5rem 0 !important;
+  padding: 0.35rem 0.55rem !important;
+  border-radius: 0.35rem !important;
+  cursor: pointer !important;
+  color: CanvasText !important;
+  background: color-mix(in srgb, Canvas 92%, CanvasText 8%) !important;
+  border: 1px solid color-mix(in srgb, CanvasText 20%, transparent) !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04) !important;
+}
+
+.aletheia-expand-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, Highlight 70%, CanvasText 30%);
+  outline-offset: 2px;
+}
+
+.aletheia-reading-shell {
+  all: initial;
+  font: 18px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: CanvasText;
+  background: Canvas;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  padding: 4.5rem 1.25rem 3rem;
+}
+
+.aletheia-reading-shell * {
+  box-sizing: border-box;
+}
+
+.aletheia-reading-inner {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.aletheia-reading-inner img,
+.aletheia-reading-inner video,
+.aletheia-reading-inner svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.aletheia-reading-inner pre,
+.aletheia-reading-inner code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.95em;
+}
+
+.aletheia-reading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  background: color-mix(in srgb, Canvas 88%, CanvasText 6%);
+  backdrop-filter: blur(8px);
+}
+
+.aletheia-reading-title {
+  font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: color-mix(in srgb, CanvasText 78%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+}
+
+.aletheia-reading-exit {
+  all: initial;
+  font: 600 13px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  cursor: pointer !important;
+  padding: 0.45rem 0.65rem !important;
+  border-radius: 0.4rem !important;
+  border: 1px solid color-mix(in srgb, CanvasText 22%, transparent) !important;
+  background: Canvas !important;
+  color: CanvasText !important;
+}
+
+html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aletheia-collapsed::after {
+    background: Canvas;
+    opacity: 0.55;
+  }
+}
+
+/* Floating panel — fixed on scroll until user minimizes */
+.aletheia-float-root {
+  all: initial;
+  position: fixed !important;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 2147483645;
+  font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: CanvasText;
+  pointer-events: none;
+}
+
+.aletheia-float-root * {
+  box-sizing: border-box;
+}
+
+.aletheia-float-root.is-hidden {
+  display: none !important;
+}
+
+.aletheia-float-root.is-minimized .aletheia-float-panel {
+  display: none;
+}
+
+.aletheia-float-root:not(.is-minimized) .aletheia-float-pill {
+  display: none;
+}
+
+.aletheia-float-pill,
+.aletheia-float-panel {
+  pointer-events: auto;
+}
+
+.aletheia-float-pill {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: 700 12px/1 system-ui, sans-serif !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: CanvasText !important;
+  background: color-mix(in srgb, Canvas 90%, CanvasText 8%) !important;
+  border: 1px solid color-mix(in srgb, CanvasText 18%, transparent) !important;
+  border-radius: 999px !important;
+  padding: 0.55rem 0.85rem !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+.aletheia-float-panel {
+  width: min(360px, calc(100vw - 2rem));
+  max-height: min(78vh, 640px);
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  background: color-mix(in srgb, Canvas 94%, CanvasText 6%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+.aletheia-float-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  background: color-mix(in srgb, Canvas 92%, CanvasText 4%);
+}
+
+.aletheia-float-name {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.aletheia-float-tag {
+  margin-top: 2px;
+  font-size: 12px;
+  color: color-mix(in srgb, CanvasText 68%, Canvas 32%);
+}
+
+.aletheia-float-host {
+  margin-top: 6px;
+  font-weight: 650;
+  word-break: break-all;
+  font-size: 12px;
+}
+
+.aletheia-float-minimize {
+  all: unset;
+  cursor: pointer;
+  font: 650 12px/1 system-ui, sans-serif !important;
+  padding: 0.45rem 0.6rem !important;
+  border-radius: 8px !important;
+  border: 1px solid color-mix(in srgb, CanvasText 18%, transparent) !important;
+  background: Canvas !important;
+  color: CanvasText !important;
+  white-space: nowrap;
+}
+
+.aletheia-float-body {
+  padding: 12px 14px 14px;
+}
+
+.aletheia-float-field {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.aletheia-float-field-label {
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.aletheia-float-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  background: Canvas;
+  color: CanvasText;
+  font: inherit;
+}
+
+.aletheia-float-hint,
+.aletheia-float-foot {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: color-mix(in srgb, CanvasText 68%, Canvas 32%);
+}
+
+.aletheia-float-section-label {
+  margin: 12px 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: color-mix(in srgb, CanvasText 68%, Canvas 32%);
+}
+
+.aletheia-float-check {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  border-radius: 10px;
+  background: Canvas;
+}
+
+.aletheia-float-check input {
+  margin-top: 2px;
+}
+
+.aletheia-float-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.aletheia-float-primary,
+.aletheia-float-ghost {
+  flex: 1;
+  border-radius: 10px;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  cursor: pointer;
+  font: 650 13px/1.2 system-ui, sans-serif;
+  background: color-mix(in srgb, Canvas 88%, CanvasText 10%);
+  color: CanvasText;
+}
+
+.aletheia-float-primary {
+  border-color: color-mix(in srgb, #1f6feb 55%, CanvasText 14%);
+  background: color-mix(in srgb, #1f6feb 16%, Canvas);
+}
+
+.aletheia-float-status {
+  min-height: 1.2em;
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.aletheia-float-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  border-radius: 10px;
+  background: Canvas;
+  cursor: pointer;
+}
+
+.aletheia-float-toggle-label {
+  font-weight: 700;
+}
+
+.aletheia-float-toggle-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #1f6feb;
+}
+
+.aletheia-float-segment-wrap {
+  margin-bottom: 10px;
+}
+
+.aletheia-float-segment-label {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: color-mix(in srgb, CanvasText 68%, Canvas 32%);
+}
+
+.aletheia-float-segment {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.aletheia-float-segment.is-disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.aletheia-float-segment-btn {
+  border-radius: 10px;
+  padding: 8px 6px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  cursor: pointer;
+  font: 650 12px/1.2 system-ui, sans-serif;
+  background: Canvas;
+  color: CanvasText;
+}
+
+.aletheia-float-segment-btn.is-active {
+  border-color: color-mix(in srgb, #1f6feb 55%, CanvasText 14%);
+  background: color-mix(in srgb, #1f6feb 14%, Canvas);
+}
+
+.aletheia-float-utility {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.aletheia-float-utility-btn {
+  flex: 1;
+}
+
+.aletheia-float-utility-btn.is-active {
+  border-color: color-mix(in srgb, #1f6feb 55%, CanvasText 14%);
+  background: color-mix(in srgb, #1f6feb 10%, Canvas);
+}
+
+.aletheia-float-changes {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  background: color-mix(in srgb, Canvas 96%, CanvasText 4%);
+}
+
+.aletheia-float-changes-body {
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-line;
+  color: color-mix(in srgb, CanvasText 82%, Canvas 18%);
+}
+
+.aletheia-float-minimize:focus-visible,
+.aletheia-float-pill:focus-visible,
+.aletheia-float-primary:focus-visible,
+.aletheia-float-ghost:focus-visible,
+.aletheia-float-select:focus-visible,
+.aletheia-float-check input:focus-visible,
+.aletheia-float-segment-btn:focus-visible,
+.aletheia-float-toggle-input:focus-visible,
+.aletheia-float-utility-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, Highlight 70%, CanvasText 30%);
+  outline-offset: 2px;
+}

@@ -315,11 +315,17 @@
 
     optionsBtn.addEventListener("click", () => {
       try {
-        if (global.AletheiaStorage?.isContextValid?.()) {
-          chrome.runtime.openOptionsPage();
-        } else {
+        if (!global.AletheiaStorage?.isContextValid?.()) {
           setStatus("Refresh this page, then open Rules & help again.");
+          return;
         }
+        chrome.runtime.sendMessage({ type: "ALETHEIA_OPEN_OPTIONS" }, (response) => {
+          if (chrome.runtime.lastError || !response?.ok) {
+            setStatus(
+              "Could not open Rules & help. Use chrome://extensions → Aletheia → Extension options."
+            );
+          }
+        });
       } catch {
         setStatus("Refresh this page, then open Rules & help again.");
       }

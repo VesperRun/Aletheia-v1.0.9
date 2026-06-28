@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aletheia</title>
+    <link rel="stylesheet" href="launcher.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <div class="name">Aletheia</div>
+        <div class="tag">Quiet the noisy web · local-only</div>
+      </div>
+    </header>
+
+    <section class="panel" id="restricted" hidden>
+      <p class="muted">
+        Open a normal web page to use on-page controls. You can still open Rules &amp; help below.
+      </p>
+      <button type="button" class="primary" id="openOptionsRestricted">Rules &amp; help</button>
+    </section>
+
+    <section class="panel" id="main">
+      <div class="label">THIS PAGE</div>
+      <div class="host" id="hostLabel">—</div>
+      <p class="hint" id="hint">Full controls live on the page in the floating panel.</p>
+      <div class="actions">
+        <button type="button" class="primary" id="showPanel">Show on-page controls</button>
+        <button type="button" class="ghost" id="openOptions">Rules &amp; help</button>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+    </section>
+
+    <footer class="foot">For the people: no user data is collected or sent. Ever.</footer>
+
+    <script src="launcher.js"></script>
+  </body>
+</html>

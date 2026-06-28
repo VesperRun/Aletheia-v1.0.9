@@ -10,7 +10,8 @@
   let panelEl = null;
   let statusEl = null;
   let hostLabelEl = null;
-  let clarityToggle = null;
+  let aletheiaPowerGroup = null;
+  let powerHintEl = null;
   let siteModeGroup = null;
   let changesDrawer = null;
   let changesBody = null;
@@ -126,6 +127,17 @@
     changesBody.textContent = formatChanges(stats || global.AletheiaPageClarity?.getChangeStats?.() || {});
   }
 
+  function syncAletheiaPower(clarityOn) {
+    if (!aletheiaPowerGroup) return;
+    const mode = clarityOn ? "on" : "off";
+    for (const btn of aletheiaPowerGroup.querySelectorAll("[data-aletheia-power]")) {
+      const active = btn.getAttribute("data-aletheia-power") === mode;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    }
+    if (powerHintEl) powerHintEl.hidden = clarityOn;
+  }
+
   function syncSiteModeButtons(mode) {
     if (!siteModeGroup) return;
     for (const btn of siteModeGroup.querySelectorAll("[data-site-mode]")) {
@@ -148,7 +160,7 @@
     if (hostLabelEl) hostLabelEl.textContent = labelHost(currentHost);
 
     const clarityOn = Boolean(settings.global?.clarityEnabled ?? true);
-    if (clarityToggle) clarityToggle.checked = clarityOn;
+    syncAletheiaPower(clarityOn);
 
     syncSiteModeButtons(detectSiteMode(settings, currentHost));
 
@@ -160,6 +172,7 @@
     if (siteModeGroup) {
       siteModeGroup.classList.toggle("is-disabled", !clarityOn);
     }
+    if (changesBtn) changesBtn.disabled = !clarityOn;
     if (showAsIsBtn) showAsIsBtn.disabled = !clarityOn && !sessionPaused;
   }
 
@@ -168,6 +181,44 @@
     if (className) node.className = className;
     if (text != null) node.textContent = text;
     return node;
+  }
+
+  function buildPowerSegment() {
+    const wrap = el("div", "aletheia-float-segment-wrap");
+    wrap.appendChild(el("div", "aletheia-float-segment-label", "Aletheia"));
+    const group = el("div", "aletheia-float-segment");
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-label", "Turn Aletheia on or off");
+
+    for (const opt of [
+      { value: "on", label: "On" },
+      { value: "off", label: "Off" },
+    ]) {
+      const btn = el("button", "aletheia-float-segment-btn", opt.label);
+      btn.type = "button";
+      btn.setAttribute("data-aletheia-power", opt.value);
+      btn.setAttribute("aria-pressed", "false");
+      btn.addEventListener("click", async () => {
+        const nextOn = opt.value === "on";
+        await persistGlobal({ clarityEnabled: nextOn });
+        setStatus(
+          nextOn
+            ? "Aletheia is on."
+            : "Aletheia is off. Pages stay untouched until you turn it back on."
+        );
+      });
+      group.appendChild(btn);
+    }
+
+    wrap.appendChild(group);
+    powerHintEl = el(
+      "p",
+      "aletheia-float-hint",
+      "Aletheia is off. Nothing on this page will change."
+    );
+    powerHintEl.hidden = true;
+    wrap.appendChild(powerHintEl);
+    return { wrap, group };
   }
 
   function buildSegment(labelText, name, options) {
@@ -231,15 +282,9 @@
 
     const body = el("div", "aletheia-float-body");
 
-    const clarityRow = el("label", "aletheia-float-toggle-row");
-    const clarityLabel = el("span", "aletheia-float-toggle-label", "Clarity");
-    clarityToggle = el("input");
-    clarityToggle.type = "checkbox";
-    clarityToggle.className = "aletheia-float-toggle-input";
-    clarityToggle.setAttribute("aria-label", "Clarity on or off");
-    clarityRow.appendChild(clarityLabel);
-    clarityRow.appendChild(clarityToggle);
-    body.appendChild(clarityRow);
+    const powerSegment = buildPowerSegment();
+    aletheiaPowerGroup = powerSegment.group;
+    body.appendChild(powerSegment.wrap);
 
     const siteSegment = buildSegment("This site", "site-mode", [
       { value: "clarify", label: "Clarify" },
@@ -286,11 +331,6 @@
     panelEl.appendChild(body);
     rootEl.appendChild(pillEl);
     rootEl.appendChild(panelEl);
-
-    clarityToggle.addEventListener("change", () => {
-      persistGlobal({ clarityEnabled: clarityToggle.checked });
-      setStatus(clarityToggle.checked ? "Clarity is on." : "Clarity is off on every site.");
-    });
 
     changesBtn.addEventListener("click", () => {
       changesOpen = !changesOpen;

@@ -3,7 +3,7 @@
 
   const COPY = {
     showPanel: "Show on-page controls",
-    hidePopup: "Hide this popup",
+    hidePopup: "Minimize",
     hintPending: "Full controls live on the page in the floating panel.",
     hintReady: "Your controls are on the page (bottom-right).",
     refresh: "Refresh this tab once to connect on-page controls.",

@@ -320,7 +320,13 @@
           return;
         }
         chrome.runtime.sendMessage({ type: "ALETHEIA_OPEN_OPTIONS" }, (response) => {
-          if (chrome.runtime.lastError || !response?.ok) {
+          if (chrome.runtime.lastError) {
+            setStatus(
+              "Could not open Rules & help. Use chrome://extensions → Aletheia → Extension options."
+            );
+            return;
+          }
+          if (!response?.ok) {
             setStatus(
               "Could not open Rules & help. Use chrome://extensions → Aletheia → Extension options."
             );
@@ -357,9 +363,10 @@
     });
   }
 
-  async function init() {
-    if (window.top !== window) return;
-    if (!document.body) return;
+  async function ensureReady() {
+    if (window.top !== window) return false;
+    if (!document.body) return false;
+    if (rootEl) return true;
 
     buildUi();
     bindStatsListener();
@@ -368,6 +375,11 @@
     await refresh();
     applyChromeState();
     bindStorageListener();
+    return true;
+  }
+
+  async function init() {
+    await ensureReady();
   }
 
   function setVisible(next) {
@@ -376,22 +388,32 @@
   }
 
   function showExpanded() {
-    visible = true;
-    minimized = false;
-    applyChromeState();
-    persistMinimized(false);
+    ensureReady().then((ready) => {
+      if (!ready) return;
+      visible = true;
+      minimized = false;
+      applyChromeState();
+      persistMinimized(false);
+    });
   }
 
   function togglePanel() {
-    if (!visible || minimized) {
-      showExpanded();
-      return;
-    }
-    persistMinimized(true);
+    ensureReady().then((ready) => {
+      if (!ready) return;
+      if (!visible || minimized) {
+        visible = true;
+        minimized = false;
+        applyChromeState();
+        persistMinimized(false);
+        return;
+      }
+      persistMinimized(true);
+    });
   }
 
   global.AletheiaFloatingPanel = {
     init,
+    ensureReady,
     refresh,
     setVisible,
     showExpanded,

@@ -550,13 +550,19 @@
         return true;
       }
       if (msg.type === "ALETHEIA_SHOW_PANEL") {
-        globalThis.AletheiaFloatingPanel?.showExpanded();
-        sendResponse({ ok: true });
+        (async () => {
+          await globalThis.AletheiaFloatingPanel?.ensureReady?.();
+          globalThis.AletheiaFloatingPanel?.showExpanded();
+          sendResponse({ ok: true });
+        })();
         return true;
       }
       if (msg.type === "ALETHEIA_TOGGLE_PANEL") {
-        globalThis.AletheiaFloatingPanel?.togglePanel();
-        sendResponse({ ok: true });
+        (async () => {
+          await globalThis.AletheiaFloatingPanel?.ensureReady?.();
+          globalThis.AletheiaFloatingPanel?.togglePanel();
+          sendResponse({ ok: true });
+        })();
         return true;
       }
       if (msg.type === "ALETHEIA_REAPPLY") {
@@ -616,14 +622,14 @@
     );
 
     await refreshSettings();
-    await applyNow();
-    bindObserver();
-    bindSpaHooks();
-    bindStorageListener();
     bindMessageListener();
     if (globalThis.AletheiaFloatingPanel) {
       await globalThis.AletheiaFloatingPanel.init();
     }
+    await applyNow();
+    bindObserver();
+    bindSpaHooks();
+    bindStorageListener();
   }
 
   boot().catch(() => {

@@ -360,7 +360,9 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
   gap: 6px;
 }
 
-.aletheia-float-segment.is-disabled {
+.aletheia-float-segment.is-disabled,
+.aletheia-float-segment-btn:disabled,
+.aletheia-float-utility-btn:disabled {
   opacity: 0.55;
   pointer-events: none;
 }

@@ -68,30 +68,38 @@
     return tab;
   }
 
-  function pingTab(tabId) {
+  function sendTabMessage(tabId, message) {
     return new Promise((resolve) => {
-      chrome.tabs.sendMessage(tabId, { type: "ALETHEIA_PING" }, (response) => {
-        resolve(Boolean(response?.ok) && !chrome.runtime.lastError);
+      chrome.tabs.sendMessage(tabId, message, (response) => {
+        if (chrome.runtime.lastError) {
+          resolve({ ok: false });
+          return;
+        }
+        resolve({ ok: Boolean(response?.ok), response });
       });
     });
   }
 
-  function showOnPagePanel(tabId) {
-    return new Promise((resolve, reject) => {
-      chrome.tabs.sendMessage(tabId, { type: "ALETHEIA_SHOW_PANEL" }, (response) => {
-        if (chrome.runtime.lastError || !response?.ok) reject(chrome.runtime.lastError);
-        else resolve();
-      });
-    });
+  async function pingTab(tabId) {
+    const result = await sendTabMessage(tabId, { type: "ALETHEIA_PING" });
+    return result.ok;
+  }
+
+  async function showOnPagePanel(tabId) {
+    const result = await sendTabMessage(tabId, { type: "ALETHEIA_SHOW_PANEL" });
+    return result.ok;
   }
 
   async function connectPanel(tabId) {
-    if (await pingTab(tabId)) {
-      await showOnPagePanel(tabId);
-      return true;
+    for (const delay of [0, 300, 900, 1800]) {
+      if (delay) await new Promise((resolve) => window.setTimeout(resolve, delay));
+      if (await pingTab(tabId)) {
+        await showOnPagePanel(tabId);
+        return true;
+      }
+      if (await showOnPagePanel(tabId)) return true;
     }
-    await showOnPagePanel(tabId);
-    return pingTab(tabId);
+    return false;
   }
 
   async function init() {
@@ -115,24 +123,19 @@
         window.close();
         return;
       }
-      try {
-        await connectPanel(tab.id);
+      const ready = await connectPanel(tab.id);
+      if (ready) {
         setPanelReady(true);
         window.close();
-      } catch {
-        setPanelReady(false);
-        setStatus("Refresh this tab once, then try again.");
+        return;
       }
+      setPanelReady(false);
+      setStatus("Refresh this tab once, then try again.");
     });
 
-    try {
-      const ready = await connectPanel(tab.id);
-      setPanelReady(ready);
-      if (!ready) setStatus(COPY.refresh);
-    } catch {
-      setPanelReady(false);
-      setStatus(COPY.refresh);
-    }
+    const ready = await connectPanel(tab.id);
+    setPanelReady(ready);
+    if (!ready) setStatus(COPY.refresh);
   }
 
   function openOptionsPage() {

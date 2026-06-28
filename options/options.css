@@ -1,0 +1,225 @@
+:root {
+  color-scheme: light dark;
+  --fg: CanvasText;
+  --muted: color-mix(in srgb, CanvasText 66%, Canvas 34%);
+  --line: color-mix(in srgb, CanvasText 14%, transparent);
+  --card: color-mix(in srgb, Canvas 94%, CanvasText 6%);
+  --accent: #1f6feb;
+}
+
+body {
+  margin: 0;
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--fg);
+  background: Canvas;
+}
+
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  margin: 0;
+  color: var(--muted);
+  max-width: 78ch;
+}
+
+.card {
+  margin-top: 18px;
+  padding: 16px 16px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.muted {
+  margin: 0 0 12px;
+  color: var(--muted);
+  max-width: 85ch;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span {
+  font-weight: 650;
+  font-size: 13px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 11px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: Canvas;
+  color: var(--fg);
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.defaults {
+  display: grid;
+  gap: 10px;
+}
+
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: Canvas;
+}
+
+.check input {
+  width: auto;
+  margin-top: 3px;
+}
+
+.check span {
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.primary,
+.ghost {
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.primary {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent) 14%, Canvas);
+}
+
+.ghost {
+  background: color-mix(in srgb, Canvas 88%, CanvasText 8%);
+}
+
+.status {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.rules {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.rule {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 12px 10px;
+  background: Canvas;
+}
+
+.rule-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.rule pre {
+  margin: 10px 0 0;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.45;
+  background: color-mix(in srgb, Canvas 92%, CanvasText 4%);
+}
+
+.danger {
+  border-radius: 12px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, #ef4444 35%, var(--line));
+  background: color-mix(in srgb, #ef4444 10%, Canvas);
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.bullets {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.bullets code {
+  font-size: 0.95em;
+}
+
+.card-legal {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--line));
+  background: color-mix(in srgb, var(--accent) 6%, var(--card));
+}
+
+.card-legal h2 {
+  margin-top: 0;
+}
+
+.card-legal a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, CanvasText 30%);
+  outline-offset: 2px;
+}

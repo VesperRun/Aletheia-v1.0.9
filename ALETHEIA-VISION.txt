@@ -1,0 +1,133 @@
+ALETHEIA — AGREED PRODUCT VISION
+=================================
+Status: AGREED (2026-06-27)
+Model: Free forever · For the people · Local-only · Simple on the outside
+
+
+ONE SENTENCE
+------------
+Install Aletheia once. The web gets calmer. You stay in control. Nothing leaves your device.
+
+
+FIVE WORDS
+----------
+Install. Quieter web. Read. Undo. Local.
+
+
+THE 7 CORE FEATURES (ULTIMATE ALEtheia)
+-----------------------------------------
+1. CLARITY ON BY DEFAULT
+   - Hide common AI summary boxes
+   - Collapse distracting side rails and related slop
+   - Strong built-in coverage: Google, YouTube, Reddit, major news
+   - One master switch: Clarity ON / OFF
+
+2. SITE PACKS BUILT IN (local, not cloud)
+   - Shipped with extension updates
+   - No remote rule feeds, no backend
+
+3. AUTOMATIC READING MODE (high-confidence articles only)
+   - Comfortable line width, clean typography, main text centered
+   - Skip apps/dashboards (Gmail, Docs, etc.)
+   - Keyboard shortcut optional, not required
+
+4. "WHAT CHANGED?" — ALWAYS REVERSIBLE
+   - Honest panel: what was hidden / collapsed
+   - "Show this page as-is" anytime
+   - Never accuse, never score, never "AI detected"
+
+5. SITE MEMORY (local)
+   - Always clarify this site
+   - Never touch this site
+   - User can reset anytime
+
+6. SPA-PROOF
+   - Survives YouTube, Reddit, Google re-renders
+   - history.pushState / popstate + retry after hydrate
+
+7. ZERO EXTRACTION (non-negotiable)
+   - No account, analytics, remote AI, browsing history, telemetry
+
+
+THE ONE UNIQUE FEATURE (ON TOP OF EVERYTHING)
+---------------------------------------------
+CLARITY LAYERS — "Show me the layers"
+
+One tap opens calm layer controls (panel or bottom sheet):
+
+  Layer          | What it is
+  ---------------|--------------------------------------------------
+  Main           | Article, post, core content
+  Summaries      | AI overview, recap, TL;DR boxes
+  Side noise     | Related stories, rails, widgets
+  Sticky chrome  | Sticky headers, floating bars, popups
+  Calls to action| Sign-up, subscribe, read-more shells
+
+Each layer: slider Full → Dim → Hidden
+Page updates live. Local only. User conducts their own view.
+Aletheia remembers layer mix per site.
+
+Tagline: "See the page. Choose your clarity."
+Store line: "Aletheia doesn't just quiet the web — it shows you the layers, and lets you choose."
+
+
+ULTIMATE POPUP (3 THINGS + LAYERS DOOR)
+---------------------------------------
+  - Clarity ON / OFF
+  - This site: Clarify / Use default / Allow
+  - [ What changed? ]  [ Show page as-is ]
+  - [ Layers ]  →  opens Clarity Layers
+  - Options →  (custom rules, reading prefs — for power users)
+
+
+EXPLICITLY OUT OF SCOPE
+-----------------------
+  - Comment bot scoring (Aletheia Signals — separate product)
+  - "AI detector" badges on people or content
+  - Accounts / cloud sync
+  - Paywall bypass / ad blocking
+  - Remote rule feeds
+  - 12 toggles in the popup for normals
+
+
+HOW IT SHOULD FEEL
+------------------
+  - Like reading glasses
+  - Invisible when working
+  - Honest when unsure
+  - Easy to turn off without guilt
+  - NOT a security product. NOT an AI product. A human reading product.
+
+
+NORTH STAR (every feature must pass)
+------------------------------------
+Does this help a normal person read the web with less stress —
+without asking them to become a power user?
+
+Yes → ship.  No → Options page or never.
+
+
+BUILD PATH (keep simple)
+------------------------
+v1.1  Reinforce silently
+      - Site packs (Google, YouTube, Reddit, news)
+      - Simpler popup (master switch + site choice)
+      - "What changed?" + show page as-is
+      - SPA resilience
+
+v1.2  Passive reading
+      - Auto reading mode on high-confidence articles
+      - Focus mode CSS (optional calm dimming)
+
+v1.3  Mass polish
+      - First-run card (one sentence, done)
+      - Always clarify / never touch site memory
+      - Optional subtle status when page clarified
+
+v1.4 or v2  Clarity Layers (the unique feature)
+      - Layer detection heuristics
+      - Layer panel + per-site layer memory
+      - Ship when v1.1–1.3 are solid
+
+
+END — This document is the agreed direction. Build to this.

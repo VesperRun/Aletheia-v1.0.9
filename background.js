@@ -26,10 +26,7 @@ async function sendToActiveTab(message) {
   }
 }
 
-chrome.action.onClicked.addListener(async () => {
-  await sendToActiveTab({ type: "ALETHEIA_TOGGLE_PANEL" });
-});
-
+// Toolbar uses popup/launcher.html. onClicked only runs when no popup is set.
 chrome.commands.onCommand.addListener(async (command) => {
   if (command !== "aletheia_toggle_reading") return;
 
@@ -37,4 +34,14 @@ chrome.commands.onCommand.addListener(async (command) => {
   if (!tab?.id || isRestrictedUrl(tab.url || "")) return;
 
   await sendToActiveTab({ type: "ALETHEIA_TOGGLE_READING" });
+});
+
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg?.type !== "ALETHEIA_OPEN_OPTIONS") return undefined;
+
+  chrome.runtime
+    .openOptionsPage()
+    .then(() => sendResponse({ ok: true }))
+    .catch(() => sendResponse({ ok: false }));
+  return true;
 });

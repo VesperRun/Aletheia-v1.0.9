@@ -5,7 +5,8 @@
   "description": "Local-first tools to reduce likely AI clutter, hide common summary panels, and use a calm reading layout. No remote servers; settings stay on your device.",
   "minimum_chrome_version": "109",
   "action": {
-    "default_title": "Aletheia — toggle clarity controls"
+    "default_title": "Aletheia — open controls",
+    "default_popup": "popup/launcher.html"
   },
   "options_ui": {
     "page": "options/options.html",

@@ -229,8 +229,8 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
   font: 650 12px/1 system-ui, sans-serif !important;
   padding: 0.45rem 0.6rem !important;
   border-radius: 8px !important;
-  border: 1px solid color-mix(in srgb, CanvasText 18%, transparent) !important;
-  background: Canvas !important;
+  border: 1px solid color-mix(in srgb, #1f6feb 55%, CanvasText 14%) !important;
+  background: color-mix(in srgb, #1f6feb 16%, Canvas) !important;
   color: CanvasText !important;
   white-space: nowrap;
 }

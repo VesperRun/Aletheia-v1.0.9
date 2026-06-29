@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Aletheia",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Local-first tools to reduce likely AI clutter, hide common summary panels, and use a calm reading layout. No remote servers; settings stay on your device.",
   "minimum_chrome_version": "109",
   "icons": {

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0
+
+- Added a **minimal toolbar launcher** so clicking the Aletheia icon always shows UI; full controls stay on the page.
+- **Rules & help** now opens Options via the background worker (fixes silent failure from content scripts).
+- Fixed floating panel **boot race** — panel inits before the clarity engine; `ensureReady` + launcher retries for late page loads.
+- Replaced the **Clarity** checkbox with explicit **Aletheia On / Off** on the floating panel.
+- Launcher primary button reads **Minimize** when on-page controls are connected; **Minimize** uses the blue accent style.
+- Fixed icon filenames (`icon16.png`, etc.), regenerated proper **16/32/48/128** sizes, and wired `icons` + `default_icon` in `manifest.json`.
+
 ## 1.0.9
 
 - Simplified the floating panel to match the product vision: **Clarity** on/off, **This site** (Clarify / Default / Allow), **What changed?**, and **Show page as-is**.

@@ -37,7 +37,7 @@ Aletheia is conservative by design. It may miss some clutter because it does not
 ## Permissions Explanation
 
 - `storage`: saves local settings, per-site preferences, and custom rules.
-- `activeTab`: lets the popup work with the current tab when the user opens it.
+- `activeTab`: lets the launcher read the active tab when you click the toolbar icon.
 - `<all_urls>` host access: lets the local content script run on pages so Aletheia can hide or collapse elements in the user's browser.
 
 ## Category

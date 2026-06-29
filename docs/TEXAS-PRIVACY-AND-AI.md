@@ -1,5 +1,7 @@
 # Aletheia — Texas-facing privacy & AI disclosures
 
+**Canonical hosted bundle:** `privacy/index.html` — privacy notice, EULA, TDPSA, TRAIGA, and Galvenais one-pager for Chrome Web Store submission. Host at an HTTPS URL (see `privacy/HOSTING.md`).
+
 **Important:** This document is for transparency and internal product hygiene. **It is not legal advice.** Texas privacy and AI statutes change, and applicability depends on your role (individual developer, company, nonprofit), revenue, data practices, and distribution model. **Consult a Texas-licensed attorney** before relying on this for compliance, contracting, or regulatory filings.
 
 ## What Aletheia is (plain English)
@@ -64,6 +66,24 @@ Texas has enacted (and continues to enact) statutes addressing **AI, deepfakes, 
 - a tool intended to **circumvent security**, scrape private data, or impersonate others.
 
 **No software “complies with AI laws” by default**—compliance is contextual. The positioning above matters because it describes what Aletheia is *not* trying to be.
+
+### TRAIGA (Texas Responsible AI Governance Act — HB 149)
+
+TRAIGA sets governance expectations for certain AI systems. Aletheia is **not** positioned as a generative AI product, remote classifier, or autonomous agent. It applies **local heuristics** and **user-defined rules** with **human-invoked** reading layout and session undo. Store copy should not claim “TRAIGA certified” or “TRAIGA compliant.”
+
+## Galvenais Rule (Aletheia — partial alignment)
+
+**Galvenais** (*galvenais*, from Latvian *galvenais*, “chief”) is the VesperRun chief privacy-and-safety doctrine. Aletheia follows its **principles** alongside TDPSA and TRAIGA transparency—not as legal certification. Aletheia does not ship a `galvenais.js` module; the hosted page at `privacy/index.html` summarizes the seven tenets as adapted for this extension:
+
+| Tenet | Aletheia practice |
+|---|---|
+| **Locality** | Settings and rules stay on-device; no Aletheia telemetry pipeline in core design |
+| **Minimization** | Store only defaults, site choices, custom rules, minimal UI state |
+| **Consent** | Clarity when enabled; reading mode user-invoked; undo available |
+| **Transparency** | “What changed?” counts; Options + hosted notice disclose behavior |
+| **Erasure** | Clear overrides, delete rules, clear extension data, uninstall |
+| **Human authority** | User chooses Clarify / Allow / Show page as-is—no autonomous agent |
+| **No surveillance** | No analytics SDK, social scoring, biometrics, or remote profiling |
 
 ## Children
 

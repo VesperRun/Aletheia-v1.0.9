@@ -43,6 +43,11 @@ aletheia-extension/
   PRIVACY.md
   CHANGELOG.md
 
+  privacy/
+    index.html          ← host for Chrome Web Store (privacy + EULA + Texas)
+    privacy.css
+    HOSTING.md
+
   background.js
   content/
   popup/
@@ -77,7 +82,7 @@ Use `dev/fixture.html` for a predictable manual test page. See `docs/TESTING.md`
 
 ## Privacy Posture
 
-Aletheia stores extension settings locally with `chrome.storage.local`. Page inspection and layout changes happen in the user's browser. See `PRIVACY.md` and `docs/TEXAS-PRIVACY-AND-AI.md`.
+Aletheia stores extension settings locally with `chrome.storage.local`. Page inspection and layout changes happen in the user's browser. For store submission, host `privacy/index.html` (privacy + EULA + TDPSA + TRAIGA + Galvenais). See also `PRIVACY.md`, `docs/TEXAS-PRIVACY-AND-AI.md`, and `privacy/HOSTING.md`.
 
 ## Important Language
 

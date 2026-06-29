@@ -2,7 +2,9 @@
 
 Last updated: `[REPLACE_ME]`
 
-This notice describes the reference implementation of Aletheia. Replace the bracketed fields before public distribution.
+**Hosted bundle (Chrome Web Store):** publish `privacy/index.html` at an HTTPS URL. That page includes this privacy notice, EULA, TDPSA, TRAIGA, and Galvenais disclosures in one place. See `privacy/HOSTING.md` for GitHub Pages setup.
+
+This markdown file mirrors the privacy section of the hosted page. Replace bracketed fields before public distribution.
 
 ## Summary
 
@@ -59,5 +61,5 @@ Privacy contact: `[REPLACE_ME]`
 
 ## Texas Notice
 
-For Texas-facing privacy and AI context, see `docs/TEXAS-PRIVACY-AND-AI.md`. This project documentation is not legal advice.
+For Texas-facing privacy, AI, and Galvenais context, see `privacy/index.html` (hosted) or `docs/TEXAS-PRIVACY-AND-AI.md` (repository detail). This project documentation is not legal advice.
 

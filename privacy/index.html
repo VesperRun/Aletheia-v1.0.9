@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aletheia · Privacy, Terms &amp; Texas Notice</title>
+    <link rel="stylesheet" href="privacy.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="hero">
+        <h1>Aletheia</h1>
+        <p class="lede">
+          Privacy notice, terms of use, and Texas-facing disclosures for the Aletheia Chrome extension.
+          Local-first · For the people · No browsing telemetry.
+        </p>
+        <p class="notice">
+          <strong>Not legal advice.</strong> This page supports transparency and product hygiene. Texas law
+          changes. Applicability depends on your publisher role and distribution model. Have a Texas-licensed
+          attorney review before commercial reliance.
+        </p>
+      </header>
+
+      <nav class="toc" aria-label="On this page">
+        <strong>On this page</strong>
+        <ul>
+          <li><a href="#privacy">Privacy notice</a></li>
+          <li><a href="#eula">Terms of use (EULA)</a></li>
+          <li><a href="#tdpsa">TDPSA alignment</a></li>
+          <li><a href="#traiga">TRAIGA alignment</a></li>
+          <li><a href="#galvenais">Galvenais Rule (Aletheia)</a></li>
+          <li><a href="#contact">Publisher &amp; contact</a></li>
+        </ul>
+      </nav>
+
+      <section class="card" id="privacy">
+        <h2>Privacy notice</h2>
+        <p class="muted">Last updated: <strong>[REPLACE_ME — date]</strong></p>
+        <p class="muted">
+          <strong>Publisher:</strong> [REPLACE_ME — legal name or trade name]<br />
+          <strong>Product:</strong> Aletheia browser extension (Chrome Manifest V3)
+        </p>
+        <h3>Summary</h3>
+        <p class="muted">
+          Aletheia is a local-first browser extension. It helps users quiet likely summary panels and clutter on
+          web pages using on-device heuristics and user-controlled rules. <strong>Aletheia does not collect or
+          transmit user data</strong> to Aletheia-operated servers as part of its core design.
+        </p>
+        <h3>Data stored locally</h3>
+        <p class="muted">Aletheia may store the following in <code>chrome.storage.local</code> on your device:</p>
+        <ul class="bullets">
+          <li>default feature settings (clarity, summary panels, clutter);</li>
+          <li>per-site choices (Clarify / Default / Allow);</li>
+          <li>user-authored custom CSS selector rules;</li>
+          <li>imported custom rules;</li>
+          <li>UI preferences (for example, panel minimized state).</li>
+        </ul>
+        <h3>Data we do not collect (by design)</h3>
+        <ul class="bullets">
+          <li>user accounts or login profiles;</li>
+          <li>browsing history sent to Aletheia-operated servers;</li>
+          <li>page contents transmitted for remote analysis;</li>
+          <li>remote AI classification of pages or people;</li>
+          <li>sale of personal data or targeted advertising through the extension;</li>
+          <li>analytics SDKs or product telemetry pipelines.</li>
+        </ul>
+        <h3>Where processing happens</h3>
+        <p class="muted">
+          Page inspection, layout changes, reading layout, and custom rules run locally in your browser. Aletheia
+          is designed with no required backend service.
+        </p>
+        <h3>Your controls</h3>
+        <ul class="bullets">
+          <li>turn Aletheia on or off;</li>
+          <li>set per-site behavior or use defaults;</li>
+          <li>show any page as-is (session undo);</li>
+          <li>add, remove, import, and export custom rules;</li>
+          <li>clear extension data in Chrome or uninstall Aletheia.</li>
+        </ul>
+        <h3>Permissions (Chrome)</h3>
+        <ul class="bullets">
+          <li><code>storage</code> — saves settings on this device.</li>
+          <li><code>activeTab</code> — reads the active tab hostname when you open the toolbar launcher.</li>
+          <li><code>&lt;all_urls&gt;</code> — lets the local content script run on pages you visit; not used to exfiltrate data.</li>
+        </ul>
+        <h3>Children</h3>
+        <p class="muted">
+          Aletheia is not directed to children. Parents and guardians should manage browser profiles and
+          extensions for minors.
+        </p>
+      </section>
+
+      <section class="card" id="eula">
+        <h2>Terms of use (EULA)</h2>
+        <p class="muted">
+          By installing or using Aletheia, you agree to these terms. If you do not agree, do not install or use
+          the extension.
+        </p>
+        <h3>License</h3>
+        <p class="muted">
+          Aletheia is provided to you for personal, non-commercial use unless the publisher offers a separate
+          written license. You may not misrepresent Aletheia, resell access to it, or use it to violate applicable
+          law or third-party terms (including website terms of service).
+        </p>
+        <h3>No professional advice</h3>
+        <p class="muted">
+          Aletheia is a reading and display helper. It does not provide legal, medical, financial, or security
+          advice. It does not guarantee that any content is or is not AI-generated.
+        </p>
+        <h3>User responsibility</h3>
+        <p class="muted">
+          You control Aletheia’s settings and any custom rules you add. Over-broad selectors may hide important
+          page content. You are responsible for reviewing what Aletheia changes and for using undo controls when
+          needed.
+        </p>
+        <h3>What Aletheia is not</h3>
+        <ul class="bullets">
+          <li>not an ad blocker or paywall bypass tool;</li>
+          <li>not a perfect “AI detector”;</li>
+          <li>not a generative AI or deepfake system;</li>
+          <li>not a surveillance or scoring product.</li>
+        </ul>
+        <h3>Disclaimer of warranties</h3>
+        <p class="muted">
+          Aletheia is provided <strong>“as is”</strong> and <strong>“as available”</strong> without warranties of
+          any kind, express or implied, including merchantability, fitness for a particular purpose, and
+          non-infringement. Sites change frequently; Aletheia may miss clutter or affect unexpected elements.
+        </p>
+        <h3>Limitation of liability</h3>
+        <p class="muted">
+          To the maximum extent permitted by law, the publisher shall not be liable for indirect, incidental,
+          special, consequential, or punitive damages, or for loss of data, profits, or goodwill arising from use
+          of Aletheia. Your remedy is to stop using the extension and remove it.
+        </p>
+        <h3>Changes</h3>
+        <p class="muted">
+          The publisher may update Aletheia and these terms. Material privacy changes should be reflected in the
+          “Last updated” date above.
+        </p>
+        <h3>Governing law</h3>
+        <p class="muted">
+          These terms are intended to be governed by the laws of the <strong>State of Texas</strong>, without
+          regard to conflict-of-law rules, except where mandatory consumer protections apply.
+        </p>
+      </section>
+
+      <section class="card" id="tdpsa">
+        <h2>TDPSA alignment (Texas Data Privacy and Security Act)</h2>
+        <p class="muted">
+          TDPSA is Chapter <strong>541</strong>, Texas Business &amp; Commerce Code. This section describes how
+          Aletheia’s <strong>design</strong> aligns with common consumer expectations—not a claim that TDPSA
+          applies to every publisher or user.
+        </p>
+        <ul class="bullets">
+          <li><strong>Transparency</strong> — this notice and in-extension Options describe local storage and behavior.</li>
+          <li><strong>Minimization</strong> — Aletheia stores settings and rules needed to function, not a cloud profile of your browsing.</li>
+          <li><strong>User control</strong> — reset site choices, delete rules, clear extension data, or uninstall.</li>
+          <li><strong>No sale model</strong> — the reference product is free; no personal data sale business model in the extension design.</li>
+          <li><strong>Consumer requests</strong> — if TDPSA applies to the publisher, contact the privacy email below. Often the practical response is that Aletheia does not hold a cloud copy of your settings; you may delete local data in Chrome.</li>
+        </ul>
+        <p class="muted">
+          Texas Attorney General — TDPSA materials (starting point):
+          <a
+            href="https://www.texasattorneygeneral.gov/consumer-protection/file-consumer-complaint/consumer-privacy-rights/texas-data-privacy-and-security-act"
+            >Texas Data Privacy and Security Act</a
+          >.
+        </p>
+      </section>
+
+      <section class="card" id="traiga">
+        <h2>TRAIGA alignment (Texas Responsible AI Governance Act)</h2>
+        <p class="muted">
+          TRAIGA (Texas HB 149) addresses responsible AI governance. Aletheia is positioned as a
+          <strong>client-side reading and decluttering utility</strong>, not a generative AI system.
+        </p>
+        <h3>What Aletheia is</h3>
+        <ul class="bullets">
+          <li>local DOM heuristics and user-defined CSS rules;</li>
+          <li>conservative language (“likely clutter,” not “AI detected”);</li>
+          <li>human-invoked reading layout and reversible controls.</li>
+        </ul>
+        <h3>What Aletheia is not designed to do</h3>
+        <ul class="bullets">
+          <li>generate deepfake or synthetic media;</li>
+          <li>create sexually explicit synthetic depictions of real people;</li>
+          <li>impersonate individuals or circumvent security;</li>
+          <li>make autonomous high-risk decisions about people;</li>
+          <li>perform remote AI inference on page content.</li>
+        </ul>
+        <p class="muted">
+          <strong>No software automatically “complies with AI laws.”</strong> Context matters. This disclosure
+          explains product intent and limits.
+        </p>
+      </section>
+
+      <section class="card" id="galvenais">
+        <h2>Galvenais Rule (Aletheia adaptation)</h2>
+        <p class="muted">
+          <strong>Galvenais</strong> (<em>galvenais</em> — from Latvian <em>galvenais</em>, “chief”) is the
+          VesperRun chief privacy-and-safety doctrine. Aletheia follows its <strong>principles</strong> alongside
+          TDPSA and TRAIGA transparency expectations. This is doctrine alignment, not a legal certification.
+        </p>
+        <table class="tenets">
+          <thead>
+            <tr>
+              <th>Tenet</th>
+              <th>Aletheia practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>I · Locality</strong></td>
+              <td>Settings and rules stay on your device. No Aletheia-operated telemetry pipeline in the core design.</td>
+            </tr>
+            <tr>
+              <td><strong>II · Minimization</strong></td>
+              <td>Store only what is needed: defaults, site choices, custom rules, minimal UI state.</td>
+            </tr>
+            <tr>
+              <td><strong>III · Consent</strong></td>
+              <td>Clarity applies when you leave Aletheia on; reading mode is user-invoked; undo is always available.</td>
+            </tr>
+            <tr>
+              <td><strong>IV · Transparency</strong></td>
+              <td>“What changed?” counts hidden/collapsed items; this page and Options disclose behavior plainly.</td>
+            </tr>
+            <tr>
+              <td><strong>V · Erasure</strong></td>
+              <td>Clear site overrides, delete rules, clear extension storage, or uninstall.</td>
+            </tr>
+            <tr>
+              <td><strong>VI · Human authority</strong></td>
+              <td>User chooses Clarify, Allow, Show page as-is, and reading layout—no autonomous “agent” mode.</td>
+            </tr>
+            <tr>
+              <td><strong>VII · No surveillance</strong></td>
+              <td>No analytics SDK, no social scoring, no biometric processing, no remote profiling.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top: 12px">
+          <strong>Product truth:</strong> Aletheia should miss some clutter. Restraint is part of trust.
+        </p>
+      </section>
+
+      <section class="card" id="contact">
+        <h2>Publisher &amp; contact</h2>
+        <p class="muted">Fill these fields before Chrome Web Store submission:</p>
+        <ul class="bullets">
+          <li><strong>Publisher / legal name:</strong> [REPLACE_ME]</li>
+          <li><strong>Privacy &amp; support email:</strong> [REPLACE_ME]</li>
+          <li><strong>Mailing address (if required):</strong> [REPLACE_ME]</li>
+          <li><strong>Hosted policy URL (HTTPS):</strong> [REPLACE_ME — use this page’s public URL]</li>
+        </ul>
+        <p class="muted">
+          Source repository:
+          <a href="https://github.com/VesperRun/Aletheia-v1.0.9">github.com/VesperRun/Aletheia-v1.0.9</a>
+        </p>
+      </section>
+
+      <p class="meta">Aletheia · For the people: no user data is collected or sent. Ever.</p>
+    </main>
+  </body>
+</html>

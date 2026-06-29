@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Added hosted **privacy bundle** at `privacy/index.html` — privacy notice, EULA, TDPSA, TRAIGA, and Galvenais one-pager for Chrome Web Store.
+- Added `privacy/HOSTING.md` (GitHub Pages setup) and cross-links from Options, `PRIVACY.md`, and store listing draft.
+
 ## 1.1.0
 
 - Added a **minimal toolbar launcher** so clicking the Aletheia icon always shows UI; full controls stay on the page.

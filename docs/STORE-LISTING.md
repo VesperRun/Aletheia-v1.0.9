@@ -71,7 +71,7 @@ Aletheia helps users read web pages with less visual clutter by locally hiding c
 |---|---|
 | Collects user data? | **No** |
 | Uses remote servers for page content? | **No** |
-| Privacy policy URL | `[HTTPS_URL_TO_HOSTED_PRIVACY.md]` — e.g. GitHub Pages or repo raw link to `PRIVACY.md` |
+| Privacy policy URL | `[HTTPS_URL]` → host `privacy/index.html` (includes privacy + EULA + TDPSA + TRAIGA + Galvenais). Example after GitHub Pages: `https://vesperrun.github.io/Aletheia-v1.0.9/privacy/` — see `privacy/HOSTING.md` |
 | Single purpose | See **Single-purpose statement** above |
 
 

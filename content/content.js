@@ -194,6 +194,46 @@
     return Math.max(0, r.width) * Math.max(0, r.height);
   }
 
+  function isValidReadingRoot(el) {
+    if (!el || !(el instanceof Element)) return false;
+    if (el === document.body || el === document.documentElement) return false;
+    if (!el.isConnected) return false;
+    if (el.closest(`.${UI_ROOT_CLASS}`) || el.closest(`.${SHELL_CLASS}`)) return false;
+    return true;
+  }
+
+  function sanitizeReadingClone(clone) {
+    if (!(clone instanceof Element)) return clone;
+    for (const node of clone.querySelectorAll("script, iframe, object, embed")) {
+      node.remove();
+    }
+    return clone;
+  }
+
+  function mountReadingShell(shell) {
+    const mount = document.body;
+    if (!mount || !(mount instanceof Element)) return false;
+    try {
+      if (typeof mount.prepend === "function") {
+        mount.prepend(shell);
+        return mount.contains(shell);
+      }
+    } catch {
+      /* try fallback */
+    }
+    try {
+      mount.insertBefore(shell, mount.firstChild);
+      return mount.contains(shell);
+    } catch {
+      try {
+        mount.appendChild(shell);
+        return mount.contains(shell);
+      } catch {
+        return false;
+      }
+    }
+  }
+
   function scoreReadingCandidate(el) {
     if (isLikelyHidden(el)) return -1;
     const text = (el.innerText || "").trim();
@@ -212,6 +252,7 @@
     let bestScore = -1;
     for (const sel of selectors) {
       for (const el of queryAllSafe(sel)) {
+        if (!isValidReadingRoot(el)) continue;
         const s = scoreReadingCandidate(el);
         if (s > bestScore) {
           bestScore = s;
@@ -235,6 +276,11 @@
       while (n && n !== document.body && depth < 8) {
         if (seen.has(n)) break;
         seen.add(n);
+        if (!isValidReadingRoot(n)) {
+          n = n.parentElement;
+          depth += 1;
+          continue;
+        }
         const s = scoreReadingCandidate(n);
         if (s > bestScore) {
           bestScore = s;
@@ -255,7 +301,7 @@
     }
 
     const root = pickReadingRoot();
-    if (!root) {
+    if (!root || !isValidReadingRoot(root)) {
       notify("Aletheia could not find a comfortable reading block on this page.");
       return;
     }
@@ -263,46 +309,57 @@
     disconnectObserver();
     globalThis.AletheiaFloatingPanel?.setVisible(false);
 
-    const shell = document.createElement("div");
-    shell.className = SHELL_CLASS;
-    shell.setAttribute(MARK, "reading-shell");
+    try {
+      const shell = document.createElement("div");
+      shell.className = SHELL_CLASS;
+      shell.setAttribute(MARK, "reading-shell");
 
-    const bar = document.createElement("div");
-    bar.className = "aletheia-reading-bar";
+      const bar = document.createElement("div");
+      bar.className = "aletheia-reading-bar";
 
-    const title = document.createElement("div");
-    title.className = "aletheia-reading-title";
-    const docTitle = (document.title || "").trim();
-    title.textContent = docTitle ? `Reading layout · ${docTitle}` : "Reading layout (local-only)";
+      const title = document.createElement("div");
+      title.className = "aletheia-reading-title";
+      const docTitle = (document.title || "").trim();
+      title.textContent = docTitle ? `Reading layout · ${docTitle}` : "Reading layout (local-only)";
 
-    const exit = document.createElement("button");
-    exit.type = "button";
-    exit.className = "aletheia-reading-exit";
-    exit.textContent = "Exit reading layout";
-    exit.addEventListener("click", () => exitReadingMode());
+      const exit = document.createElement("button");
+      exit.type = "button";
+      exit.className = "aletheia-reading-exit";
+      exit.textContent = "Exit reading layout";
+      exit.addEventListener("click", () => exitReadingMode());
 
-    bar.appendChild(title);
-    bar.appendChild(exit);
+      bar.appendChild(title);
+      bar.appendChild(exit);
 
-    const inner = document.createElement("div");
-    inner.className = "aletheia-reading-inner";
-    inner.appendChild(root.cloneNode(true));
+      const inner = document.createElement("div");
+      inner.className = "aletheia-reading-inner";
+      inner.appendChild(sanitizeReadingClone(root.cloneNode(true)));
 
-    shell.appendChild(bar);
-    shell.appendChild(inner);
+      shell.appendChild(bar);
+      shell.appendChild(inner);
 
-    document.documentElement.classList.add("aletheia-reading");
-    document.body.prepend(shell);
-    readingShell = shell;
-    readingActive = true;
-
-    keyHandler = (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        exitReadingMode();
+      if (!mountReadingShell(shell)) {
+        notify("Aletheia could not open reading layout on this page.");
+        globalThis.AletheiaFloatingPanel?.setVisible(true);
+        return;
       }
-    };
-    window.addEventListener("keydown", keyHandler, true);
+
+      document.documentElement.classList.add("aletheia-reading");
+      readingShell = shell;
+      readingActive = true;
+
+      keyHandler = (e) => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          exitReadingMode();
+        }
+      };
+      window.addEventListener("keydown", keyHandler, true);
+    } catch {
+      exitReadingMode();
+      globalThis.AletheiaFloatingPanel?.setVisible(true);
+      notify("Aletheia could not open reading layout on this page.");
+    }
   }
 
   function notify(message) {

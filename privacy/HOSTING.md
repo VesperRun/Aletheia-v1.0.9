@@ -7,19 +7,19 @@ Chrome Web Store requires a **public HTTPS URL** for the privacy policy. Use the
 1. Open `privacy/index.html` and replace all `[REPLACE_ME]` fields (publisher name, email, address, date, hosted URL).
 2. Mirror the same contact email in `PRIVACY.md` and `options/options.html` (`#privacyPolicyLink` href).
 
-## GitHub Pages (recommended)
+## GitHub Pages (VesperRun only)
 
-1. Push `privacy/` to the default branch on GitHub.
+Host from **VesperRun/Aletheia-v1.0.9** only. Do not publish the privacy page under other GitHub accounts or repos (for example `jaesondl-bot/MainGo`).
+
+1. Push `privacy/` to `main` on **github.com/VesperRun/Aletheia-v1.0.9**.
 2. Repository **Settings → Pages**.
 3. **Build and deployment → Source:** Deploy from a branch.
-4. **Branch:** `main` (or your default) → folder **`/privacy`**.
+4. **Branch:** `main` → folder **`/privacy`**.
 5. Save. After a minute or two, the site is live at:
 
-   `https://<username>.github.io/<repo-name>/`
+   **`https://vesperrun.github.io/Aletheia-v1.0.9/`**
 
-   For this repo, that is typically:
-
-   `https://vesperrun.github.io/Aletheia-v1.0.9/`
+   (There is no `privacy.html` file — `privacy/index.html` is served at that root URL.)
 
 6. Paste that URL into:
    - Chrome Web Store → Privacy practices → Privacy policy URL

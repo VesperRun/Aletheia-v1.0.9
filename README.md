@@ -106,3 +106,9 @@ Avoid:
 - “impersonate”
 - “guaranteed compliance”
 
+## License
+
+Copyright (c) 2026 VesperRun. All rights reserved.
+
+Aletheia is **not** free software. See [`LICENSE`](LICENSE). Install and use from the Chrome Web Store is allowed. Forking, copying, or republishing the code or brand as your own product is not.
+

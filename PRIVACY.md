@@ -1,6 +1,6 @@
 # Aletheia Privacy Notice
 
-Last updated: `[REPLACE_ME]`
+Last updated: September 6, 2026
 
 **Hosted bundle (Chrome Web Store):** publish `privacy/index.html` at an HTTPS URL. That page includes this privacy notice, EULA, TDPSA, TRAIGA, and Galvenais disclosures in one place. See `privacy/HOSTING.md` for GitHub Pages setup.
 
@@ -57,7 +57,7 @@ Users can:
 
 ## Contact
 
-Privacy contact: `[REPLACE_ME]`
+Privacy contact: aletheiaclarity@proton.me
 
 ## Texas Notice
 

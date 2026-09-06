@@ -17,11 +17,17 @@ Host from **VesperRun/Aletheia-v1.0.9** only. Do not publish the privacy page un
 4. **Branch:** `main` → folder **`/privacy`**.
 5. Save. After a minute or two, the site is live at:
 
+   If Pages is deployed from the **`/privacy`** folder, the policy is at the site root:
+
    **`https://vesperrun.github.io/Aletheia-v1.0.9/`**
 
-   (There is no `privacy.html` file — `privacy/index.html` is served at that root URL.)
+   If Pages is deployed from the repo root (current live setup), the README is at that root URL. Use the policy path instead:
 
-6. Paste that URL into:
+   **`https://vesperrun.github.io/Aletheia-v1.0.9/privacy/`**
+
+   Chrome Web Store must receive the URL that actually shows the privacy notice, not the README.
+
+6. Paste the **working policy URL** into:
    - Chrome Web Store → Privacy practices → Privacy policy URL
    - `options/options.html` → `#privacyPolicyLink` href
    - `privacy/index.html` → Publisher & contact → Hosted policy URL

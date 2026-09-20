@@ -1,3 +1,5 @@
+/* Copyright (c) 2026 VesperRun. All rights reserved. */
+/* Proprietary — Aletheia local-first Chrome extension. */
 /**
  * Aletheia — shared defaults and storage helpers (no network).
  * All settings live in chrome.storage.local on this device.

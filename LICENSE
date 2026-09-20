@@ -1,9 +1,25 @@
+Aletheia — Proprietary license (VesperRun)
+==========================================
+
 Copyright (c) 2026 VesperRun. All rights reserved.
 
 You may not copy, modify, distribute, or use this software or its assets
 (including name, branding, and icon art) without explicit written permission
 from the copyright holder, except as required for normal use of the published
-Chrome extension through the Chrome Web Store.
+Chrome extension through the Chrome Web Store when VesperRun publishes it there.
 
-This repository is provided for transparency and documentation. No license
-is granted to fork or republish the code as your own product.
+This repository may be public or private for operator transparency. No license
+is granted to fork, republish, or sell this source as your own product.
+
+Install and use from the Chrome Web Store is allowed. That is a product-use
+exception. It does not grant a right to copy, fork, or republish the source.
+
+History (honest)
+----------------
+Aletheia was never published under GPL-3.0 and was never designated Pro Bono
+Populi. The first LICENSE file in this repository (2026-09-05) was already
+VesperRun all rights reserved. Earlier commits had no LICENSE file; absence of
+a file is not a GPL grant.
+
+See LICENSE-PROPRIETARY.txt (same terms). See PRO-BONO-POPULI.txt (not active).
+There is no licenses/GPL-3.0.txt — there is no prior public GPL to retain.

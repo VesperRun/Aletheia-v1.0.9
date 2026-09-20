@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Aligned **proprietary VesperRun** license files (`LICENSE`, `LICENSE-PROPRIETARY.txt`, `PRO-BONO-POPULI.txt`). Aletheia was never GPL and never Pro Bono Populi.
 - Added hosted **privacy bundle** at `privacy/index.html` — privacy notice, EULA, TDPSA, TRAIGA, and Galvenais one-pager for Chrome Web Store.
 - Added `privacy/HOSTING.md` (GitHub Pages setup) and cross-links from Options, `PRIVACY.md`, and store listing draft.
 

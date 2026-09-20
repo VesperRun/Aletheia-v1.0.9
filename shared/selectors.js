@@ -1,3 +1,5 @@
+/* Copyright (c) 2026 VesperRun. All rights reserved. */
+/* Proprietary — Aletheia local-first Chrome extension. */
 /**
  * Conservative validation for user-authored CSS selectors.
  * This is not a full CSS parser; it rejects patterns that are commonly unsafe or surprising.

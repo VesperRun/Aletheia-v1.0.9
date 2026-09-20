@@ -1,3 +1,5 @@
+/* Copyright (c) 2026 VesperRun. All rights reserved. */
+/* Proprietary — Aletheia local-first Chrome extension. */
 /**
  * Aletheia site profiles — local host-specific selectors (no remote feed).
  * Conservative heuristics only; not proof of AI.

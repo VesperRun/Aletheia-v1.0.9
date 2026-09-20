@@ -1,3 +1,5 @@
+/* Copyright (c) 2026 VesperRun. All rights reserved. */
+/* Proprietary — Aletheia local-first Chrome extension. */
 (() => {
   const MARK = "data-aletheia-touch";
   const UI_ROOT_CLASS = "aletheia-float-root";

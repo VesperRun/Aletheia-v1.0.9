@@ -11,6 +11,7 @@ Publisher-ready draft. Replace remaining `[BRACKETS]` before submission.
 | **Version** | 1.1.0 |
 | **Category** | **Productivity** |
 | **Language** | English |
+| **License** | **Proprietary · VesperRun.** Store install is a use grant, not open source. See `LICENSE` and `LICENSE-PROPRIETARY.txt`. |
 
 **Why Productivity, not Accessibility:** the product is calmer reading for everyone, not assistive technology. Mis-filing under Accessibility can fail review. Do not use Search Tools (it is not only search) and do not use Fun.
 

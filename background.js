@@ -1,3 +1,5 @@
+/* Copyright (c) 2026 VesperRun. All rights reserved. */
+/* Proprietary — Aletheia local-first Chrome extension. */
 /**
  * Aletheia background — local message routing only (no network).
  */

@@ -1,0 +1,25 @@
+Aletheia — Pro Bono Populi designation
+======================================
+
+Status: NOT ACTIVE
+
+Aletheia was never designated Pro Bono Populi and was never published under GPL-3.0.
+
+This artifact is proprietary (VesperRun). See LICENSE and LICENSE-PROPRIETARY.txt.
+
+History:
+  - Public GitHub: VesperRun/Aletheia-v1.0.9.
+  - First LICENSE in-tree (2026-09-05) was already VesperRun all rights reserved.
+  - Earlier commits (from the v1.0.9 line) had no LICENSE file. That is not a GPL grant.
+  - No public GPL-3.0 designation. No licenses/GPL-3.0.txt (nothing to retain).
+
+Pro Bono Populi applies only when Vesper explicitly names a public repo or
+published Store artifact under GPL-3. Aletheia is not designated.
+
+The product may still be free to use from the Chrome Web Store — that is
+product policy, not a GPL grant.
+
+A public repo remains downloadable. Editing LICENSE does not erase clones
+already taken. Consider a private repo or Store-only distribution before VP.
+
+_For the people · Local only · VesperRun_

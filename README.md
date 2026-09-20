@@ -1,5 +1,7 @@
 # Aletheia
 
+**VesperRun · proprietary · local-first** — reading glasses for the web. No account. No telemetry. No remote model.
+
 Aletheia is a local-first Chrome Manifest V3 extension that helps users quiet AI-heavy websites by hiding common AI summary panels, collapsing likely AI clutter, and offering a clean reading layout.
 
 Aletheia does **not** collect user data, does **not** send browsing data anywhere, does **not** use remote servers, and does **not** claim perfect AI detection. It gives users local controls in their own browser.
@@ -108,7 +110,11 @@ Avoid:
 
 ## License
 
-Copyright (c) 2026 VesperRun. All rights reserved.
+**This build (active):** **proprietary · VesperRun · all rights reserved.** See [`LICENSE`](LICENSE) and [`LICENSE-PROPRIETARY.txt`](LICENSE-PROPRIETARY.txt).
 
-Aletheia is **not** free software. See [`LICENSE`](LICENSE). Install and use from the Chrome Web Store is allowed. Forking, copying, or republishing the code or brand as your own product is not.
+Pro Bono Populi / GPL-3 is **not** active and **never was** (see [`PRO-BONO-POPULI.txt`](PRO-BONO-POPULI.txt)). There is no `licenses/GPL-3.0.txt` because Aletheia was never published under GPL.
+
+Install and use from the Chrome Web Store is allowed. That is a use grant. Forking, copying, or republishing the code, name, branding, or icon art as your own product is not.
+
+**Public repo note:** `VesperRun/Aletheia-v1.0.9` is public. Source is still downloadable even though the license is proprietary. Editing LICENSE does not erase clones already taken. Consider making the repo **private** or distributing **Chrome Web Store–only** before VP if you want to limit further source exposure — operator decision.
 

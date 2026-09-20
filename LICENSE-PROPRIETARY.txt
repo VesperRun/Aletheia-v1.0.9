@@ -1,0 +1,19 @@
+Aletheia — Default proprietary license (VesperRun builds)
+============================================================
+
+Active license for this build (PRO_BONO_POPULI: false). See Philosophia Vesperi §XI (local canon).
+
+Copyright (c) 2026 VesperRun. All rights reserved.
+
+You may not copy, modify, distribute, or use this software or its assets
+(including name, branding, and icon art) without explicit written permission
+from the copyright holder, except as required for normal use of the published
+Chrome extension through the Chrome Web Store.
+
+This repository is provided for transparency and documentation. No license
+is granted to fork or republish the code as your own product.
+
+A free Chrome Web Store listing, if published, grants use of the published
+extension only. It does not grant a right to copy, fork, or republish the source.
+
+Aletheia was never GPL and never Pro Bono Populi. See LICENSE and PRO-BONO-POPULI.txt.

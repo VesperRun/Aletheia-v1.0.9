@@ -143,7 +143,7 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
   position: fixed !important;
   right: 1rem;
   bottom: 1rem;
-  z-index: 2147483645;
+  z-index: 2147483647 !important;
   font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: CanvasText;
   pointer-events: none;
@@ -157,12 +157,28 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
   display: none !important;
 }
 
+.aletheia-float-root.is-minimized {
+  pointer-events: auto !important;
+}
+
 .aletheia-float-root.is-minimized .aletheia-float-panel {
   display: none;
 }
 
+.aletheia-float-root.is-minimized .aletheia-float-pill {
+  display: inline-flex !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  user-select: none !important;
+}
+
 .aletheia-float-root:not(.is-minimized) .aletheia-float-pill {
   display: none;
+}
+
+.aletheia-float-root:not(.is-minimized) .aletheia-float-panel {
+  display: block !important;
+  pointer-events: auto !important;
 }
 
 .aletheia-float-pill,
@@ -172,10 +188,12 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
 
 .aletheia-float-pill {
   all: unset;
+  pointer-events: auto !important;
+  user-select: none !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  cursor: pointer !important;
   font: 700 12px/1 system-ui, sans-serif !important;
   letter-spacing: 0.04em;
   text-transform: uppercase;

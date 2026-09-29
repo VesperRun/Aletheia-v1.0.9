@@ -25,6 +25,9 @@
   let currentHost = "";
   let changesOpen = false;
   let sessionPaused = false;
+  let minimizeEpoch = 0;
+  let persistInFlight = 0;
+  let persistQueue = Promise.resolve();
 
   function hostname() {
     try {
@@ -86,21 +89,75 @@
     await global.AletheiaPageClarity?.reapply?.();
   }
 
-  async function persistMinimized(next) {
-    minimized = Boolean(next);
-    const settings = await global.AletheiaStorage.loadSettings();
-    await global.AletheiaStorage.saveSettings({
-      ui: { ...(settings.ui || {}), floatingPanelMinimized: minimized },
-    });
+  function persistMinimized(next) {
+    const nextMinimized = Boolean(next);
+    const epoch = ++minimizeEpoch;
+    minimized = nextMinimized;
     applyChromeState();
+    persistInFlight += 1;
+    persistQueue = persistQueue
+      .catch(() => {
+        /* keep going so a failed write cannot block the next one */
+      })
+      .then(async () => {
+        try {
+          if (epoch !== minimizeEpoch) return;
+          const settings = await global.AletheiaStorage.loadSettings();
+          if (epoch !== minimizeEpoch) return;
+          await global.AletheiaStorage.saveSettings({
+            ui: { ...(settings.ui || {}), floatingPanelMinimized: nextMinimized },
+          });
+          if (epoch !== minimizeEpoch) return;
+          minimized = nextMinimized;
+          applyChromeState();
+        } finally {
+          persistInFlight = Math.max(0, persistInFlight - 1);
+        }
+      });
+    return persistQueue;
+  }
+
+  function expandFromPill(event) {
+    if (!minimized || !visible || !rootEl) return;
+    const target = event?.target;
+    if (target && target !== rootEl && !rootEl.contains(target)) return;
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    persistMinimized(false);
+  }
+
+  function eventHitsPill(event) {
+    if (!pillEl || !minimized || !visible) return false;
+    const rect = pillEl.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return false;
+    return (
+      event.clientX >= rect.left &&
+      event.clientX <= rect.right &&
+      event.clientY >= rect.top &&
+      event.clientY <= rect.bottom
+    );
+  }
+
+  function onWindowPillPress(event) {
+    if (!eventHitsPill(event)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    persistMinimized(false);
   }
 
   function applyChromeState() {
     if (!rootEl) return;
     rootEl.classList.toggle("is-minimized", minimized);
     rootEl.classList.toggle("is-hidden", !visible);
-    rootEl.setAttribute("aria-hidden", !visible ? "true" : minimized ? "true" : "false");
-    if (pillEl) pillEl.setAttribute("aria-expanded", minimized ? "false" : "true");
+    rootEl.setAttribute("aria-hidden", visible ? "false" : "true");
+    rootEl.style.setProperty("pointer-events", minimized && visible ? "auto" : "none", "important");
+    if (pillEl) {
+      pillEl.setAttribute("aria-expanded", minimized ? "false" : "true");
+      pillEl.setAttribute("aria-hidden", minimized ? "false" : "true");
+    }
+    if (panelEl) panelEl.setAttribute("aria-hidden", minimized ? "true" : "false");
   }
 
   function formatChanges(stats) {
@@ -263,7 +320,15 @@
     pillEl = el("button", "aletheia-float-pill", "Aletheia");
     pillEl.type = "button";
     pillEl.title = "Show Aletheia controls";
-    pillEl.addEventListener("click", () => persistMinimized(false));
+    pillEl.style.setProperty("pointer-events", "auto", "important");
+    pillEl.style.setProperty("cursor", "pointer", "important");
+    pillEl.style.setProperty("user-select", "none", "important");
+    rootEl.addEventListener("pointerdown", expandFromPill, true);
+    rootEl.addEventListener("click", expandFromPill, true);
+    rootEl.addEventListener("dblclick", expandFromPill, true);
+    window.addEventListener("pointerdown", onWindowPillPress, true);
+    window.addEventListener("click", onWindowPillPress, true);
+    window.addEventListener("dblclick", onWindowPillPress, true);
 
     panelEl = el("div", "aletheia-float-panel");
 
@@ -379,7 +444,7 @@
       }
     });
 
-    (document.body || document.documentElement).appendChild(rootEl);
+    (document.documentElement || document.body).appendChild(rootEl);
   }
 
   function bindStatsListener() {
@@ -397,7 +462,9 @@
       if (!global.AletheiaStorage?.isContextValid?.()) return;
       if (area !== "local") return;
       if (!changes[global.AletheiaStorage.STORAGE_KEY]) return;
+      const epoch = minimizeEpoch;
       global.AletheiaStorage.loadSettings().then((settings) => {
+        if (epoch !== minimizeEpoch || persistInFlight > 0) return;
         minimized = Boolean(settings.ui?.floatingPanelMinimized);
         applyChromeState();
         refresh();

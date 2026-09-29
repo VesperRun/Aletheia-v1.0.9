@@ -56,22 +56,6 @@
     <button type="button" id="pill-hit" title="Show Aletheia controls">
       <span class="pill-face">Aletheia</span>
     </button>
-    <script>
-      function expand() {
-        try {
-          parent.postMessage({ type: "ALETHEIA_EXPAND_FLOATING_PANEL" }, "*");
-        } catch {
-          /* parent gone */
-        }
-      }
-      document.getElementById("pill-hit").addEventListener("pointerdown", (e) => {
-        e.preventDefault();
-        expand();
-      });
-      document.getElementById("pill-hit").addEventListener("click", (e) => {
-        e.preventDefault();
-        expand();
-      });
-    </script>
+    <script src="minimized-pill.js"></script>
   </body>
 </html>

@@ -10,8 +10,8 @@
   let rootEl = null;
   let pillEl = null;
   let pillWrapEl = null;
-  let pillCatcherEl = null;
-  let minimizedLayerEl = null;
+  let pillIframeEl = null;
+  let pillMessageBound = false;
   let panelEl = null;
   const PILL_HIT_SLOP = 14;
   let pillCaptureBound = false;
@@ -126,7 +126,7 @@
 
   function pillScreenRect(slop) {
     const node =
-      minimized && visible && minimizedLayerEl ? minimizedLayerEl : pillWrapEl || pillEl;
+      minimized && visible && pillIframeEl ? pillIframeEl : pillWrapEl || pillEl;
     if (!node) return null;
     const rect = node.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) return null;
@@ -166,9 +166,8 @@
     const path = event.composedPath?.() || [];
     for (const node of path) {
       if (!(node instanceof Element)) continue;
-      if (node === rootEl || node === minimizedLayerEl) return true;
+      if (node === rootEl || node === pillIframeEl) return true;
       if (rootEl?.contains(node)) return true;
-      if (minimizedLayerEl?.contains(node)) return true;
     }
     return false;
   }
@@ -199,11 +198,11 @@
       eventPathIncludesAletheiaUi(event) ||
       (topEl &&
         (topEl === rootEl ||
-          topEl === minimizedLayerEl ||
+          topEl === pillIframeEl ||
           rootEl.contains(topEl) ||
-          minimizedLayerEl?.contains(topEl)));
+          topEl === pillIframeEl));
 
-    if (!hitOurs) {
+    if (topEl === pillIframeEl || hitOurs) {
       stopPageFromUnderPill(event);
       persistMinimized(false);
       return;
@@ -223,50 +222,70 @@
     window.addEventListener("auxclick", onWindowPillCapture, opts);
   }
 
-  function raiseMinimizedLayerToTop() {
-    if (!minimizedLayerEl?.isConnected || !minimized || !visible) return;
+  function ensurePillIframe() {
+    if (pillIframeEl) return pillIframeEl;
+    pillIframeEl = document.createElement("iframe");
+    pillIframeEl.className = "aletheia-float-pill-iframe";
+    pillIframeEl.setAttribute(UI_MARK, "floating-panel-minimized");
+    pillIframeEl.title = "Show Aletheia controls";
+    pillIframeEl.setAttribute("aria-label", "Show Aletheia controls");
+    pillIframeEl.src = chrome.runtime.getURL("content/minimized-pill.html");
+    pillIframeEl.tabIndex = -1;
+    return pillIframeEl;
+  }
+
+  function bindPillIframeMessages() {
+    if (pillMessageBound) return;
+    pillMessageBound = true;
+    global.addEventListener("message", (event) => {
+      if (!pillIframeEl || event.source !== pillIframeEl.contentWindow) return;
+      if (event.data?.type !== "ALETHEIA_EXPAND_FLOATING_PANEL") return;
+      expandFromPill(null);
+    });
+  }
+
+  function raisePillIframeToTop() {
+    if (!pillIframeEl?.isConnected || !minimized || !visible) return;
     const parent = document.documentElement;
-    if (parent.lastElementChild !== minimizedLayerEl) {
-      parent.appendChild(minimizedLayerEl);
+    if (parent.lastElementChild !== pillIframeEl) {
+      parent.appendChild(pillIframeEl);
     }
   }
 
-  function scheduleRaiseMinimizedLayer() {
+  function scheduleRaisePillIframe() {
     if (topLayerRaiseScheduled) return;
     topLayerRaiseScheduled = global.requestAnimationFrame(() => {
       topLayerRaiseScheduled = 0;
-      raiseMinimizedLayerToTop();
+      raisePillIframeToTop();
     });
   }
 
   function bindTopLayerObserver() {
     if (topLayerObserver) return;
     topLayerObserver = new MutationObserver(() => {
-      if (minimized && visible) scheduleRaiseMinimizedLayer();
+      if (minimized && visible) scheduleRaisePillIframe();
     });
     topLayerObserver.observe(document.documentElement, { childList: true });
   }
 
-  function syncMinimizedLayerMount() {
-    if (!rootEl || !pillWrapEl || !minimizedLayerEl) return;
+  function syncMinimizedPillSurface() {
+    if (!rootEl || !pillWrapEl) return;
+    bindPillIframeMessages();
 
-    const showMinimizedLayer = minimized && visible;
-    if (showMinimizedLayer) {
-      if (pillWrapEl.parentNode !== minimizedLayerEl) {
-        minimizedLayerEl.appendChild(pillWrapEl);
-      }
-      minimizedLayerEl.classList.remove("is-hidden");
-      minimizedLayerEl.setAttribute("aria-hidden", "false");
+    const showIframe = minimized && visible;
+    if (showIframe) {
+      const iframe = ensurePillIframe();
+      iframe.hidden = false;
+      iframe.setAttribute("aria-hidden", "false");
+      const mount = document.documentElement || document.body;
+      if (!iframe.isConnected) mount.appendChild(iframe);
+      raisePillIframeToTop();
+      bindTopLayerObserver();
       rootEl.classList.add("is-minimized");
       rootEl.classList.add("is-pill-detached");
-      raiseMinimizedLayerToTop();
-      bindTopLayerObserver();
-    } else {
-      if (pillWrapEl.parentNode !== rootEl) {
-        rootEl.insertBefore(pillWrapEl, panelEl);
-      }
-      minimizedLayerEl.classList.add("is-hidden");
-      minimizedLayerEl.setAttribute("aria-hidden", "true");
+    } else if (pillIframeEl) {
+      pillIframeEl.hidden = true;
+      pillIframeEl.setAttribute("aria-hidden", "true");
       rootEl.classList.remove("is-pill-detached");
     }
   }
@@ -278,7 +297,7 @@
     rootEl.setAttribute("aria-hidden", !visible ? "true" : minimized ? "true" : "false");
     const panelInteractive = visible && !minimized;
     rootEl.style.setProperty("pointer-events", panelInteractive ? "auto" : "none", "important");
-    syncMinimizedLayerMount();
+    syncMinimizedPillSurface();
     if (pillEl) {
       pillEl.setAttribute("aria-expanded", minimized ? "false" : "true");
       pillEl.setAttribute("aria-hidden", minimized ? "false" : "true");
@@ -443,18 +462,6 @@
     rootEl.setAttribute("role", "region");
     rootEl.setAttribute("aria-label", "Aletheia clarity controls");
 
-    minimizedLayerEl = el("div", "aletheia-float-minimized-layer");
-    minimizedLayerEl.setAttribute(UI_MARK, "floating-panel-minimized");
-    minimizedLayerEl.classList.add("is-hidden");
-    minimizedLayerEl.setAttribute("aria-hidden", "true");
-
-    pillCatcherEl = el("button", "aletheia-float-pill-catcher");
-    pillCatcherEl.type = "button";
-    pillCatcherEl.setAttribute("aria-label", "Show Aletheia controls");
-    pillCatcherEl.title = "Show Aletheia controls";
-    pillCatcherEl.addEventListener("pointerdown", expandFromPill, true);
-    pillCatcherEl.addEventListener("click", expandFromPill, true);
-
     pillWrapEl = el("div", "aletheia-float-pill-wrap");
     pillEl = el("button", "aletheia-float-pill", "Aletheia");
     pillEl.type = "button";
@@ -463,8 +470,8 @@
     pillEl.addEventListener("pointerdown", expandFromPill, true);
     pillEl.addEventListener("click", expandFromPill, true);
 
-    minimizedLayerEl.appendChild(pillCatcherEl);
     bindPillCaptureListeners();
+    bindPillIframeMessages();
 
     panelEl = el("div", "aletheia-float-panel");
 
@@ -582,7 +589,6 @@
 
     const mount = document.documentElement || document.body;
     mount.appendChild(rootEl);
-    mount.appendChild(minimizedLayerEl);
   }
 
   function bindStatsListener() {

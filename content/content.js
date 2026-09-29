@@ -78,7 +78,7 @@
           (!target.closest(`[${MARK}]`) &&
             !target.closest(`.${BTN_CLASS}`) &&
             !target.closest(`.${UI_ROOT_CLASS}`) &&
-            !target.closest(".aletheia-float-minimized-layer"))
+            !target.closest(".aletheia-float-pill-iframe"))
         );
       });
       if (externalChange) scheduleApply();

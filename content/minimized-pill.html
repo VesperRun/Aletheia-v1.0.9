@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aletheia</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      #pill-hit {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font: inherit;
+      }
+
+      #pill-hit:focus-visible {
+        outline: 2px solid #1f6feb;
+        outline-offset: 2px;
+      }
+
+      .pill-face {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font: 700 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: canvastext;
+        background: color-mix(in srgb, canvas 90%, canvastext 8%);
+        border: 1px solid color-mix(in srgb, canvastext 18%, transparent);
+        border-radius: 999px;
+        padding: 0.55rem 0.85rem;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+        pointer-events: none;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" id="pill-hit" title="Show Aletheia controls">
+      <span class="pill-face">Aletheia</span>
+    </button>
+    <script>
+      function expand() {
+        try {
+          parent.postMessage({ type: "ALETHEIA_EXPAND_FLOATING_PANEL" }, "*");
+        } catch {
+          /* parent gone */
+        }
+      }
+      document.getElementById("pill-hit").addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        expand();
+      });
+      document.getElementById("pill-hit").addEventListener("click", (e) => {
+        e.preventDefault();
+        expand();
+      });
+    </script>
+  </body>
+</html>

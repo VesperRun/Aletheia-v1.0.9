@@ -159,10 +159,22 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
 
 .aletheia-float-root.is-minimized {
   pointer-events: auto !important;
+  isolation: isolate;
+  transform: translateZ(0);
 }
 
 .aletheia-float-root.is-minimized .aletheia-float-panel {
   display: none;
+}
+
+.aletheia-float-root.is-minimized .aletheia-float-pill-wrap {
+  display: inline-flex !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 1;
+  padding: 12px;
+  margin: -12px;
+  touch-action: manipulation;
 }
 
 .aletheia-float-root.is-minimized .aletheia-float-pill {
@@ -170,9 +182,11 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
   pointer-events: auto !important;
   cursor: pointer !important;
   user-select: none !important;
+  position: relative;
+  z-index: 2;
 }
 
-.aletheia-float-root:not(.is-minimized) .aletheia-float-pill {
+.aletheia-float-root:not(.is-minimized) .aletheia-float-pill-wrap {
   display: none;
 }
 

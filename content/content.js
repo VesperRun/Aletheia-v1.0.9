@@ -73,7 +73,13 @@
     observer = new MutationObserver((mutations) => {
       const externalChange = mutations.some((mutation) => {
         const target = mutation.target;
-        return !(target instanceof Element) || (!target.closest(`[${MARK}]`) && !target.closest(`.${BTN_CLASS}`) && !target.closest(`.${UI_ROOT_CLASS}`));
+        return (
+          !(target instanceof Element) ||
+          (!target.closest(`[${MARK}]`) &&
+            !target.closest(`.${BTN_CLASS}`) &&
+            !target.closest(`.${UI_ROOT_CLASS}`) &&
+            !target.closest(".aletheia-float-minimized-layer"))
+        );
       });
       if (externalChange) scheduleApply();
     });

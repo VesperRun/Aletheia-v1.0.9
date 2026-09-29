@@ -10,9 +10,13 @@
   let rootEl = null;
   let pillEl = null;
   let pillWrapEl = null;
+  let pillCatcherEl = null;
+  let minimizedLayerEl = null;
   let panelEl = null;
   const PILL_HIT_SLOP = 14;
   let pillCaptureBound = false;
+  let topLayerObserver = null;
+  let topLayerRaiseScheduled = 0;
   let statusEl = null;
   let hostLabelEl = null;
   let aletheiaPowerGroup = null;
@@ -121,7 +125,8 @@
   }
 
   function pillScreenRect(slop) {
-    const node = pillWrapEl || pillEl;
+    const node =
+      minimized && visible && minimizedLayerEl ? minimizedLayerEl : pillWrapEl || pillEl;
     if (!node) return null;
     const rect = node.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) return null;
@@ -157,7 +162,18 @@
     persistMinimized(false);
   }
 
-  function onDocumentPillCapture(event) {
+  function eventPathIncludesAletheiaUi(event) {
+    const path = event.composedPath?.() || [];
+    for (const node of path) {
+      if (!(node instanceof Element)) continue;
+      if (node === rootEl || node === minimizedLayerEl) return true;
+      if (rootEl?.contains(node)) return true;
+      if (minimizedLayerEl?.contains(node)) return true;
+    }
+    return false;
+  }
+
+  function onWindowPillCapture(event) {
     if (!minimized || !visible || !pillEl || !rootEl) return;
     const type = event.type;
     if (
@@ -179,38 +195,90 @@
     } catch {
       topEl = null;
     }
-    const hitOurs = topEl && (topEl === rootEl || rootEl.contains(topEl));
+    const hitOurs =
+      eventPathIncludesAletheiaUi(event) ||
+      (topEl &&
+        (topEl === rootEl ||
+          topEl === minimizedLayerEl ||
+          rootEl.contains(topEl) ||
+          minimizedLayerEl?.contains(topEl)));
 
     if (!hitOurs) {
       stopPageFromUnderPill(event);
-      if (type === "pointerdown" || type === "mousedown" || type === "click" || type === "auxclick") {
-        persistMinimized(false);
-      }
+      persistMinimized(false);
       return;
     }
 
-    if (type === "pointerdown" || type === "mousedown" || type === "click" || type === "auxclick") {
-      stopPageFromUnderPill(event);
-      persistMinimized(false);
-    }
+    stopPageFromUnderPill(event);
+    persistMinimized(false);
   }
 
   function bindPillCaptureListeners() {
     if (pillCaptureBound) return;
     pillCaptureBound = true;
     const opts = { capture: true, passive: false };
-    document.addEventListener("pointerdown", onDocumentPillCapture, opts);
-    document.addEventListener("mousedown", onDocumentPillCapture, opts);
-    document.addEventListener("click", onDocumentPillCapture, opts);
-    document.addEventListener("auxclick", onDocumentPillCapture, opts);
+    window.addEventListener("pointerdown", onWindowPillCapture, opts);
+    window.addEventListener("mousedown", onWindowPillCapture, opts);
+    window.addEventListener("click", onWindowPillCapture, opts);
+    window.addEventListener("auxclick", onWindowPillCapture, opts);
+  }
+
+  function raiseMinimizedLayerToTop() {
+    if (!minimizedLayerEl?.isConnected || !minimized || !visible) return;
+    const parent = document.documentElement;
+    if (parent.lastElementChild !== minimizedLayerEl) {
+      parent.appendChild(minimizedLayerEl);
+    }
+  }
+
+  function scheduleRaiseMinimizedLayer() {
+    if (topLayerRaiseScheduled) return;
+    topLayerRaiseScheduled = global.requestAnimationFrame(() => {
+      topLayerRaiseScheduled = 0;
+      raiseMinimizedLayerToTop();
+    });
+  }
+
+  function bindTopLayerObserver() {
+    if (topLayerObserver) return;
+    topLayerObserver = new MutationObserver(() => {
+      if (minimized && visible) scheduleRaiseMinimizedLayer();
+    });
+    topLayerObserver.observe(document.documentElement, { childList: true });
+  }
+
+  function syncMinimizedLayerMount() {
+    if (!rootEl || !pillWrapEl || !minimizedLayerEl) return;
+
+    const showMinimizedLayer = minimized && visible;
+    if (showMinimizedLayer) {
+      if (pillWrapEl.parentNode !== minimizedLayerEl) {
+        minimizedLayerEl.appendChild(pillWrapEl);
+      }
+      minimizedLayerEl.classList.remove("is-hidden");
+      minimizedLayerEl.setAttribute("aria-hidden", "false");
+      rootEl.classList.add("is-minimized");
+      rootEl.classList.add("is-pill-detached");
+      raiseMinimizedLayerToTop();
+      bindTopLayerObserver();
+    } else {
+      if (pillWrapEl.parentNode !== rootEl) {
+        rootEl.insertBefore(pillWrapEl, panelEl);
+      }
+      minimizedLayerEl.classList.add("is-hidden");
+      minimizedLayerEl.setAttribute("aria-hidden", "true");
+      rootEl.classList.remove("is-pill-detached");
+    }
   }
 
   function applyChromeState() {
     if (!rootEl) return;
     rootEl.classList.toggle("is-minimized", minimized);
-    rootEl.classList.toggle("is-hidden", !visible);
-    rootEl.setAttribute("aria-hidden", visible ? "false" : "true");
-    rootEl.style.setProperty("pointer-events", minimized && visible ? "auto" : "none", "important");
+    rootEl.classList.toggle("is-hidden", !visible || (minimized && visible));
+    rootEl.setAttribute("aria-hidden", !visible ? "true" : minimized ? "true" : "false");
+    const panelInteractive = visible && !minimized;
+    rootEl.style.setProperty("pointer-events", panelInteractive ? "auto" : "none", "important");
+    syncMinimizedLayerMount();
     if (pillEl) {
       pillEl.setAttribute("aria-expanded", minimized ? "false" : "true");
       pillEl.setAttribute("aria-hidden", minimized ? "false" : "true");
@@ -375,6 +443,18 @@
     rootEl.setAttribute("role", "region");
     rootEl.setAttribute("aria-label", "Aletheia clarity controls");
 
+    minimizedLayerEl = el("div", "aletheia-float-minimized-layer");
+    minimizedLayerEl.setAttribute(UI_MARK, "floating-panel-minimized");
+    minimizedLayerEl.classList.add("is-hidden");
+    minimizedLayerEl.setAttribute("aria-hidden", "true");
+
+    pillCatcherEl = el("button", "aletheia-float-pill-catcher");
+    pillCatcherEl.type = "button";
+    pillCatcherEl.setAttribute("aria-label", "Show Aletheia controls");
+    pillCatcherEl.title = "Show Aletheia controls";
+    pillCatcherEl.addEventListener("pointerdown", expandFromPill, true);
+    pillCatcherEl.addEventListener("click", expandFromPill, true);
+
     pillWrapEl = el("div", "aletheia-float-pill-wrap");
     pillEl = el("button", "aletheia-float-pill", "Aletheia");
     pillEl.type = "button";
@@ -382,6 +462,8 @@
     pillWrapEl.appendChild(pillEl);
     pillEl.addEventListener("pointerdown", expandFromPill, true);
     pillEl.addEventListener("click", expandFromPill, true);
+
+    minimizedLayerEl.appendChild(pillCatcherEl);
     bindPillCaptureListeners();
 
     panelEl = el("div", "aletheia-float-panel");
@@ -498,7 +580,9 @@
       }
     });
 
-    (document.documentElement || document.body).appendChild(rootEl);
+    const mount = document.documentElement || document.body;
+    mount.appendChild(rootEl);
+    mount.appendChild(minimizedLayerEl);
   }
 
   function bindStatsListener() {

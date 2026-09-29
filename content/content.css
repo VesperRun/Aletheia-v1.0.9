@@ -163,6 +163,60 @@ html.aletheia-reading > body > *:not(.aletheia-reading-shell) {
   transform: translateZ(0);
 }
 
+.aletheia-float-root.is-pill-detached.is-minimized {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Minimized pill: top-level layer so late page footers (e.g. Streamlit) cannot sit above it */
+.aletheia-float-minimized-layer {
+  all: initial;
+  position: fixed !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: min(300px, 55vw) !important;
+  height: 7.5rem !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  padding: 0 1rem 1rem 0 !important;
+  isolation: isolate;
+  transform: translateZ(0);
+  font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.aletheia-float-minimized-layer.is-hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.aletheia-float-minimized-layer .aletheia-float-pill-catcher {
+  all: unset;
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  z-index: 0 !important;
+}
+
+.aletheia-float-minimized-layer .aletheia-float-pill-wrap {
+  position: relative !important;
+  z-index: 1 !important;
+  display: inline-flex !important;
+  pointer-events: auto !important;
+  padding: 12px;
+  margin: 0;
+  touch-action: manipulation;
+}
+
 .aletheia-float-root.is-minimized .aletheia-float-panel {
   display: none;
 }
